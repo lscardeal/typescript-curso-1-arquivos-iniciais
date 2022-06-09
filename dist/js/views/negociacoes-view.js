@@ -1,6 +1,5 @@
 import { View } from "./view.js";
 export class NegociacoesView extends View {
-    // O professor utiliza .join('') na criação da string
     template(model) {
         return `
         <table class="table table-hover table-bordered">
