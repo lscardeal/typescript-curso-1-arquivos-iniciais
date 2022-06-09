@@ -13,7 +13,7 @@ export class NegociacaoController {
         this._inputValor = document.querySelector('#valor');
     }
     adicionar() {
-        const negociacao = this.criarNegociacao();
+        const negociacao = Negociacao.criar(this._inputData.value, this._inputQuantidade.value, this._inputValor.value);
         if (this.isDiaUtil(negociacao)) {
             this.negociacoes.adicionar(negociacao);
             this.atualizarView(true, "Negociacao adicionada com sucesso!");
@@ -22,18 +22,6 @@ export class NegociacaoController {
         else {
             this.atualizarView(false, "Data não é dia útil");
         }
-    }
-    criarNegociacao() {
-        const data = this.criarData(this._inputData.value);
-        const quantidade = parseInt(this._inputQuantidade.value);
-        const valor = parseFloat(this._inputValor.value);
-        return new Negociacao(data, quantidade, valor);
-    }
-    criarData(inputData) {
-        const hifem = /-/g;
-        const virgula = ',';
-        const dataFormatada = inputData.replace(hifem, virgula);
-        return new Date(dataFormatada);
     }
     limparFormulario() {
         this._inputData.value = '';
