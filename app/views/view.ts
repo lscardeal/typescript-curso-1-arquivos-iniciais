@@ -1,11 +1,16 @@
-import { Negociacoes } from "../models/negociacoes.js";
+import { testarPerformance } from "../decorators/performance.js";
 
 export abstract class View<T> {
 
     private elemento: HTMLElement;
 
     constructor(seletor: string) {
-        this.elemento = document.querySelector(seletor);
+        const elemento = document.querySelector(seletor);
+        if (elemento) {
+            this.elemento = elemento as HTMLElement;
+        } else {
+            throw Error("seletor = null");
+        }
     }
 
     protected abstract template(model: T): string;

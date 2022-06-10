@@ -4,7 +4,9 @@
         "outDir": "dist/js",
         "noEmitOnError": true,
         "noImplicitAny": true,
-        "removeComments": true
+        "removeComments": true,
+        "strictNullChecks": true,
+        "experimentalDecorators": true,
     },
     "include": [
         "app/**/*"

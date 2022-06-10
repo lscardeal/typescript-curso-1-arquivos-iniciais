@@ -3,6 +3,7 @@ import { Negociacoes } from "../models/negociacoes.js";
 import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
 import { DiaDaSemana} from "../enums/dias_semana.js";
+import { testarPerformance } from "../decorators/performance.js";
 
 export class NegociacaoController {
 
@@ -14,11 +15,12 @@ export class NegociacaoController {
     private mensagemView = new MensagemView("#mensagemView");
 
     constructor () {
-        this._inputData = document.querySelector('#data');
-        this._inputQuantidade = document.querySelector('#quantidade');
-        this._inputValor = document.querySelector('#valor');
+        this._inputData = document.querySelector('#data') as HTMLInputElement;
+        this._inputQuantidade = document.querySelector('#quantidade') as HTMLInputElement;
+        this._inputValor = document.querySelector('#valor') as HTMLInputElement;
     }
 
+    @testarPerformance()
     adicionar(): void {
         const negociacao: Negociacao = Negociacao.criar
             (this._inputData.value, this._inputQuantidade.value, this._inputValor.value);
@@ -40,8 +42,18 @@ export class NegociacaoController {
 
     private atualizarView(adicionaNegociacao: boolean, mensagem: string) {
         if (adicionaNegociacao)
-            this.negociacoesView.update(this.negociacoes);
-        this.mensagemView.update(mensagem)
+            this.atualizarNegociacoesView();
+        this.atualizarMensagemView(mensagem);
+    }
+
+    @testarPerformance()
+    private atualizarNegociacoesView() {
+        this.negociacoesView.update(this.negociacoes);
+    }
+
+    @testarPerformance()
+    private atualizarMensagemView(mensagem: string) {
+        this.mensagemView.update(mensagem);
     }
 
     private isDiaUtil(negociacao: Negociacao): boolean {
